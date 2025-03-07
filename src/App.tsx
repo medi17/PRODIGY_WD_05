@@ -1,5 +1,6 @@
 import {ChangeEvent, JSX, useEffect, useState } from 'react'
 import {optionType} from "./types/types"
+import Search from './components/search';
 
 const App = (): JSX.Element => {
 
@@ -40,7 +41,7 @@ const App = (): JSX.Element => {
 
      const chooseOption = (option: optionType) => {
           setCity(option)
-}
+     }
 
      useEffect (() => {
           if (city) {
@@ -56,7 +57,14 @@ const App = (): JSX.Element => {
                     <p className="text-sm font-extralight">Enter below a place you want to know the
                          weather of and select an option from the dropdown
                     </p>
-                    <div className="relative mx-4 mt-8 rounded-lg flex justify-center items-center gap-2">
+                    <Search
+                         input= {input}
+                         handleInputChange={handleInputChange}
+                         onSubmit={onSubmit}
+                         options={options}
+                         chooseOption = {chooseOption}
+                    />
+                    {/* <div className="relative mx-4 mt-8 rounded-lg flex justify-center items-center gap-2">
                          <input className="p-3 border-none bg-[#c6c6d9] w-full h-full rounded-lg text-[#0B0B29] focus:outline-none"
                               type="text" 
                               placeholder='Enter a city'
@@ -78,7 +86,7 @@ const App = (): JSX.Element => {
                                    </li>
                               ))}
                          </ul>
-                    </div>
+                    </div> */}
                </div>
           </div>
      )
