@@ -1,54 +1,13 @@
-import {ChangeEvent, JSX, useEffect, useState } from 'react'
-import {optionType} from "./types/types"
+import { JSX } from 'react'
+
 import Search from './components/search';
+import useForecast from './hooks/useForecast';
 
 const App = (): JSX.Element => {
-
-     const [input, setInput] = useState<string>('');
-     const [options, setOptions] = useState<[]>([]);
-     const [city, setCity] = useState<optionType | null>(null);
-
-
-     const getOptions = (value: string) => {
-
-          const apiKey = import.meta.env.VITE_MY_API_KEY
-
-          fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${value.trim()}&limit=5&appid=${apiKey}`)
-               .then((res) => res.json())
-               .then((data) => setOptions(data))
-     }
-
-     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-          const value = e.target.value
-          setInput(value)
-
-          if (value === '') return;
-          
-          getOptions(value)
-          
-     }
-
-     const getForecast = (city:optionType) => {
-          fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&units=metric&appid=${import.meta.env.VITE_MY_API_KEY}`)
-               .then((res) => res.json())
-               .then((data) => console.log({data}))
-     }
-     const onSubmit = () => {
-          if (!city) return
-          
-          getForecast(city)
-     }
-
-     const chooseOption = (option: optionType) => {
-          setCity(option)
-     }
-
-     useEffect (() => {
-          if (city) {
-               setInput(city.name)
-               setOptions([])
-          }
-     }, [city])
+     const {
+        input, options, forecast, onSubmit, chooseOption, handleInputChange
+     } = useForecast()
+     
 
      return (
           <div className="bg-[#0B0B29] text-white h-screen flex justify-center items-center">
@@ -57,13 +16,17 @@ const App = (): JSX.Element => {
                     <p className="text-sm font-extralight">Enter below a place you want to know the
                          weather of and select an option from the dropdown
                     </p>
-                    <Search
+                    {forecast ? ("Here is the forecast"
+                    ) : (
+                         <Search
                          input= {input}
                          handleInputChange={handleInputChange}
                          onSubmit={onSubmit}
                          options={options}
                          chooseOption = {chooseOption}
-                    />
+                    />)
+                    
+                    }
                     {/* <div className="relative mx-4 mt-8 rounded-lg flex justify-center items-center gap-2">
                          <input className="p-3 border-none bg-[#c6c6d9] w-full h-full rounded-lg text-[#0B0B29] focus:outline-none"
                               type="text" 
