@@ -27,13 +27,20 @@ const App = (): JSX.Element => {
           
      }
 
-     const chooseOption = (option: optionType) => {
-          setCity(option)
-
-          fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${option.lat}&lon=${option.lon}&units=metric&appid=${import.meta.env.VITE_MY_API_KEY}`)
+     const getForecast = (city:optionType) => {
+          fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&units=metric&appid=${import.meta.env.VITE_MY_API_KEY}`)
                .then((res) => res.json())
                .then((data) => console.log({data}))
      }
+     const onSubmit = () => {
+          if (!city) return
+          
+          getForecast(city)
+     }
+
+     const chooseOption = (option: optionType) => {
+          setCity(option)
+}
 
      useEffect (() => {
           if (city) {
@@ -58,6 +65,7 @@ const App = (): JSX.Element => {
                          />
 
                          <button className="py-2 px-4 bg-[#0B0B29] mr-2 rounded-lg cursor-pointer hover:bg-[#21354D] hover:border hover:border-[#c6c6d9]"
+                              onClick={onSubmit}
                          >search</button>
                          <ul className='absolute top-[40px] bg-[#c6c6d9] mr-50 ml-0 rounded-b-md md:mr-75'>
                               {options.map((option: optionType, index:number) => (
