@@ -29,3 +29,21 @@ export const getVisibility = (levisibilitynum: number): string => {
 
      return 'Very clear day'
 }
+
+export const getPop = (value: number): string => {
+  if (value <= 0.33) return 'Low probability'
+  if (value > 0.33 && value <= 0.66) return 'Moderate probability'
+
+  return 'High probability'
+}
+
+export const getSunTime = (timestamp: number): string => {
+  const date = new Date(timestamp * 1000)
+  let hours = date.getHours().toString()
+  let minutes = date.getMinutes().toString()
+
+  if (hours.length <= 1) hours = `0${hours}`
+  if (minutes.length <= 1) minutes = `0${minutes}`
+
+  return `${hours}:${minutes}`
+}
