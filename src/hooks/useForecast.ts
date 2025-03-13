@@ -12,7 +12,7 @@ const useForecast = () => {
 
           const apiKey = import.meta.env.VITE_MY_API_KEY
 
-          fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${value.trim()}&limit=5&appid=${apiKey}`)
+          fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${value.trim()}&limit=5&appid=${apiKey}`)
                .then((res) => res.json())
                .then((data) => setOptions(data))
      }
